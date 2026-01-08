@@ -133,7 +133,7 @@ export default function AdminConsoleShell({ children }) {
         );
     }
 
-    const isLoginPage = pathname === "/login";
+    const isLoginPage = pathname?.replace(/\/$/, '') === "/login";
     const userRoleValue = hierarchy[profile?.admin_role] || (profile?.role === 'admin' ? 100 : 0);
     const filteredItems = sidebarItems.filter(item => {
         const requiredValue = hierarchy[item.minRole] || 100;

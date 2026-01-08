@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/components/providers/AuthProvider";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function AdminGuard({ children }) {
     const { user, profile, loading, logout } = useAuth();
@@ -84,7 +84,7 @@ export default function AdminGuard({ children }) {
             // 3. If everything fails and we are not loading, redirect
             if (!loading) {
                 setVerifying(false);
-                const isLoginPage = window.location.pathname === "/login";
+                const isLoginPage = window.location.pathname.replace(/\/$/, '') === "/login";
 
                 if (!user && !isLoginPage) {
                     router.replace("/login");
@@ -110,8 +110,8 @@ export default function AdminGuard({ children }) {
         );
     }
 
-    // Now we are on the client and mounted
-    const isLoginPage = window.location.pathname === "/login";
+    const pathname = usePathname();
+    const isLoginPage = pathname?.replace(/\/$/, '') === "/login" || window.location.pathname.replace(/\/$/, '') === "/login";
 
     if ((loading || verifying || !authorized) && !isLoginPage) {
         return (
