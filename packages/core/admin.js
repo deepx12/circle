@@ -7,9 +7,11 @@ let adminDb;
 let adminAuth;
 
 const getAdminConfig = () => {
-  const projectId = process.env.FIREBASE_PROJECT_ID;
-  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const cleanStr = (str) => str?.replace(/^["']|["']$/g, '').trim();
+
+  const projectId = cleanStr(process.env.FIREBASE_PROJECT_ID);
+  const clientEmail = cleanStr(process.env.FIREBASE_CLIENT_EMAIL);
+  const privateKey = cleanStr(process.env.FIREBASE_PRIVATE_KEY)?.replace(/\\n/g, "\n");
 
   return { projectId, clientEmail, privateKey };
 };

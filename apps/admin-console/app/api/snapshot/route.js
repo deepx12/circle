@@ -79,7 +79,11 @@ async function handler(req) {
         });
     } catch (error) {
         console.error("[SECURITY] Dashboard Snapshot Error:", error.message);
-        return NextResponse.json({ error: "Generic dashboard error" }, { status: 500 });
+        return NextResponse.json({
+            error: "Snapshot aggregate failure",
+            message: error.message,
+            snapshot: {} // Fallback to empty to avoid total crash
+        }, { status: 500 });
     }
 }
 
